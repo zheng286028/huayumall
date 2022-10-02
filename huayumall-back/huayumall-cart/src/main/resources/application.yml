@@ -1,0 +1,35 @@
+#端口
+server:
+  port: 21000
+spring:
+  cloud:
+    nacos:
+#注册中心
+      discovery:
+        server-addr: 192.168.0.12:8848
+#服务名称
+  application:
+    name: huayumall-cart
+#模板缓存
+  thymeleaf:
+    cache: false
+  #spring-session类型
+  session:
+    store-type: redis
+#redis数据源
+  redis:
+    host: 192.168.56.10
+#远程调用
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read.timeout: 5000
+#自定义线程池配置
+huayumall:
+  thread:
+    keep-alive-time: 60
+    maximum-pool-size: 200
+    core-pool-size: 20
+

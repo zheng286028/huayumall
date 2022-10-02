@@ -1,0 +1,28 @@
+#端口
+server:
+  port: 25000
+#服务名称
+spring:
+  application:
+    name: huayumall-seckill
+#注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+#redis
+  redis:
+    host: 192.168.56.10
+#线程池
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 50
+#时间
+  jackson:
+    date-format: HH:MM:dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+
+

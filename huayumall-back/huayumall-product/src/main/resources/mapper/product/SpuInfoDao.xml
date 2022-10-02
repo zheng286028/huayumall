@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzl.huayumall.product.dao.SpuInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zzl.huayumall.product.entity.SpuInfoEntity" id="spuInfoMap">
+        <result property="id" column="id"/>
+        <result property="spuName" column="spu_name"/>
+        <result property="spuDescription" column="spu_description"/>
+        <result property="catalogId" column="catalog_id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="weight" column="weight"/>
+        <result property="publishStatus" column="publish_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="skuItemSaleAttrVo" type="com.zzl.huayumall.product.vo.SkuItemSaleAttrVo">
+        <result column="attr_id" property="attrId"/>
+        <result column="attr_name" property="attrName"/>
+        <collection property="attrValue" ofType="com.zzl.huayumall.product.vo.AttrValueWhitSkuIdVo">
+            <result column="attr_value" property="attrValue"/>
+            <result column="sku_ids" property="skuIds"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateStatusById">
+        update pms_spu_info set update_time = NOW(),publish_status = #{upStatus} where id = #{spuId}
+    </update>
+    <select id="selectSpuInfoByDynamic" resultType="com.zzl.huayumall.product.entity.SpuInfoEntity" resultMap="spuInfoMap" parameterType="map">
+        select * from pms_spu_info
+        <where>
+        <if test="key != null and key != '' ">
+            id = #{key} or spu_name like concat ('%'+#{key}+'%')
+        </if>
+        <if test="brandId != null and brandId !='' ">
+            brand_id = #{brandId}
+        </if>
+        <if test="catelogId != null and catelogId != ''">
+            catelog_id = #{catelogId}
+        </if>
+        <if test="status != null and status != ''">
+            publish_status = #{status}
+        </if>
+        </where>
+        limit #{page},#{limit}
+
+    </select>
+    <select id="selectSkuBySpuId" resultMap="skuItemSaleAttrVo">
+        select
+            ssav.attr_id attr_id,
+            ssav.attr_name attr_name,
+            ssav.attr_value attr_value,
+            GROUP_CONCAT(DISTINCT info.sku_id) sku_ids
+        from pms_sku_info info
+        left join pms_sku_sale_attr_value ssav on ssav.sku_id = info.sku_id
+        WHERE info.spu_id = #{spuId}
+        GROUP BY ssav.attr_id ,ssav.attr_name,ssav.attr_value
+    </select>
+
+
+</mapper>

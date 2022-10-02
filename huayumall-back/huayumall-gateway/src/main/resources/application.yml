@@ -1,0 +1,90 @@
+server:
+  port: 88
+spring:
+  application:
+    name: huayumall-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+      config:
+        server-addr: 192.168.0.12:8848.
+    gateway:
+      routes:
+        #商品服务地址
+        - id: product_route
+          uri: lb://huayumall-product
+          predicates:
+            - Path=/api/product/**,/hello
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment}
+        #优惠服务
+        - id: coupon_route
+          uri: lb://huayumall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment}
+        #仓库服务地址
+        - id: ware_route
+          uri: lb://huayumall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment}
+        #会员服务地址
+        - id: menber_route
+          uri: lb://huayumall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/$\{segment}
+        #第三方服务地址
+        - id: thirdparty_route
+          uri: lb://huayumall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/?(?<segment>.*),/$\{segment}
+        #人人地址
+        - id: renren-fast_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*),/renren-fast/$\{segment}
+        #nginx代理
+        - id: huayumall_host_route
+          uri: lb://huayumall-product
+          predicates:
+            - Host=huayumall.com,item.huayumall.com
+        #验证
+        - id: huayumall_auth_route
+          uri: lb://huayumall-auth-server
+          predicates:
+            - Host=auth.huayumall.com
+        #购物车
+        - id: huayumall_cart_route
+          uri: lb://huayumall-cart
+          predicates:
+            - Host=cart.huayumall.com
+      #会员服务
+        - id: huayumall_order_route
+          uri: lb://huayunall-order
+          predicates:
+            - Host=order.huayumall.com
+      #订单
+        - id: huayumall_member_route
+          uri: lb://huayumall-member
+          predicates:
+            - Host=member.huayumall.com
+      #秒杀
+        - id: huayumall_seckill_route
+          uri: lb://huayumall-seckill
+          predicates:
+            - Host=seckill.huayumall.com
+        #检索
+        - id: huayumall_host_route
+          uri: lb://huayumall-search
+          predicates:
+            - Host=**.huayumall.com

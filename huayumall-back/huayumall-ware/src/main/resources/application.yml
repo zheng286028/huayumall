@@ -1,0 +1,44 @@
+#数据源
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10:3306/huayumall_wms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#消息中间件
+  rabbitmq:
+    host: 192.168.56.10
+#开启手动确认
+    listener:
+      direct:
+        acknowledge-mode: manual
+  #服务名称
+  application:
+    name: huayumall-ware
+#注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+      config:
+        group: SEATA_GROUP
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/ware/*.xml
+  global-config:
+    db-config:
+      id-type: auto #全局主键直增
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#端口
+server:
+  port: 8000
+#远程调用配置
+feign:
+  client:
+    config:
+      default:
+        read-timeout: 5000
+        connect-timeout: 5000

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zzl.huayumall.product.dao.AttrGroupDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zzl.huayumall.product.entity.AttrGroupEntity" id="attrGroupMap">
+        <result property="attrGroupId" column="attr_group_id"/>
+        <result property="attrGroupName" column="attr_group_name"/>
+        <result property="sort" column="sort"/>
+        <result property="descript" column="descript"/>
+        <result property="icon" column="icon"/>
+        <result property="catelogId" column="catelog_id"/>
+    </resultMap>
+    <!--因为是嵌套是对象，需要自定义属性封装-->
+    <resultMap id="BeanResultMap" type="com.zzl.huayumall.product.vo.SpuItemBaseAttrGroupVo">
+        <result property="groupName" column="attr_group_name" />
+        <collection property="attrs" ofType="com.zzl.huayumall.product.vo.Attr">
+            <result column="attr_name" property="attrName"/>
+            <result column="attr_value" property="attrValue"/>
+        </collection>
+     </resultMap>
+    <!--根据分类id和Spuid联表查询-->
+    <select id="selectSpuItemBySkuIdAndCategoryId" resultMap="BeanResultMap">
+        select
+            pav.spu_id,
+            ag.attr_group_id ,ag.attr_group_name,aar.attr_id,
+            a.attr_name,pav.attr_value
+        from pms_attr_group as ag
+                 left join pms_attr_attrgroup_relation aar on aar.attr_group_id = ag.attr_group_id
+                 left join pms_attr a on a.attr_id = aar.attr_id
+                 left join pms_product_attr_value pav on pav.attr_id = a.attr_id
+        where ag.catelog_id = #{catalogId} and pav.spu_id = #{spuId};
+    </select>
+</mapper>

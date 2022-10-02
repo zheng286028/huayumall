@@ -1,0 +1,16 @@
+server:
+  port: 12000
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+  session:
+    store-type: redis
+  application:
+    name: huayumall-search
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.56.10
+    port: 6379

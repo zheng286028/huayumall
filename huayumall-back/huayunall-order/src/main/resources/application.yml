@@ -1,0 +1,61 @@
+#数据源
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10:3306/huayumall_oms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#服务名称
+  application:
+    name: huayunall-order
+  cloud:
+#注册中心
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+  #消息队列
+  rabbitmq:
+    host: 192.168.56.10
+    virtual-host: /
+#消息投递到服务器的确认回调
+    publisher-confirms: true
+#消息投递到队列的确认回调
+    publisher-returns: true
+#手动确认消息
+    listener:
+      direct:
+        acknowledge-mode: manual
+#模板
+  thymeleaf:
+    cache: false
+#redis数据源
+  redis:
+    host: 192.168.56.10
+#session共享
+  session:
+    store-type: redis
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/order/*.xml
+  global-config:
+    db-config:
+      id-type: auto #全局主键直增
+#端口
+server:
+  port: 9001
+#远程配置
+feign:
+  client:
+    config:
+      default:
+        read-timeout: 5000
+        connect-timeout: 5000
+#自定义线程池配置
+huayumall:
+  thread:
+    core-pool-size: 20
+    maximum-pool-size: 200
+    keep-alive-time: 10
+#alipay支付成功的异步回调
+alipay:
+  notify-url: https://fbe6-61-186-10-223.jp.ngrok.io/OrderPage

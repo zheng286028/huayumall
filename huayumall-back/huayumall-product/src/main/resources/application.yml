@@ -1,0 +1,62 @@
+#数据源
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10:3306/huayumall_pms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+#注册中心
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+#时间格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:dd
+    time-zone: GMT+8
+#缓存
+  thymeleaf:
+    cache: false
+#reids数据源
+  redis:
+    port: 6379
+    host: 192.168.56.10
+#cache缓存配置
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1800000
+      cache-null-values: true
+#session共享配置
+  session:
+    store-type: redis
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/product/*.xml
+  global-config:
+    db-config:
+      id-type: auto #全局主键直增
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#端口
+server:
+  port: 7000
+#日志打印
+logging:
+  level:
+    com.zzl.huayumall: error
+#自定义线程池配置
+huayumall:
+  thread:
+    core-pool-size: 20
+    maximum-pool-size: 200
+    keep-alive-time: 10
+#feign远程配置
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000

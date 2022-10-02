@@ -1,0 +1,9 @@
+server:
+  port: 30000
+spring:
+  application:
+    name: huayumall-third-party
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848

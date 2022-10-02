@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.zzl</groupId>
+    <artifactId>huayumall</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>huayumall-coupon</module>
+        <module>huayumall-member</module>
+        <module>huayumall-product</module>
+        <module>huayumall-ware</module>
+        <module>huayunall-order</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>huayumall-common</module>
+        <module>huayumall-gateway</module>
+        <module>huayumall-third-party</module>
+        <module>huayumall-search</module>
+        <module>huayumall-cart</module>
+        <module>huayumall-auth-server</module>
+        <module>huayumall-seckill</module>
+    </modules>
+</project>

@@ -1,0 +1,45 @@
+#数据源
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10:3306/huayumall_ums
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#服务名称
+  application:
+    name: huayumall-member
+#注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.12:8848
+#session配置
+  session:
+    store-type: redis
+#redis数据源
+  redis:
+    host: 192.168.56.10
+    port: 6379
+#模板缓存
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/member/*.xml
+  global-config:
+    db-config:
+      id-type: auto #全局主键直增
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#端口
+server:
+  port: 11000
+#feign远程配置
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000
